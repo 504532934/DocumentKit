@@ -1,0 +1,82 @@
+{
+  "name": "documentkit",
+  "version": "0.1.0",
+  "description": "Secure, high-throughput webpage to PDF and screenshot service with HTTP and MCP interfaces.",
+  "type": "module",
+  "bin": {
+    "documentkit": "./dist/cli/index.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
+    "dev": "tsx watch src/cli/index.ts serve",
+    "start": "node dist/cli/index.js serve",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:unit": "vitest run tests/unit",
+    "test:integration": "vitest run tests/integration",
+    "check": "npm run typecheck && npm run lint && npm run format:check && npm test && npm run build",
+    "prepack": "npm run clean && npm run build"
+  },
+  "keywords": [
+    "pdf",
+    "screenshot",
+    "playwright",
+    "mcp",
+    "webpage",
+    "document"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/504532934/DocumentKit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/504532934/DocumentKit/issues"
+  },
+  "homepage": "https://github.com/504532934/DocumentKit#readme",
+  "dependencies": {
+    "@fastify/rate-limit": "^10.3.0",
+    "@fastify/swagger": "^9.8.1",
+    "@fastify/swagger-ui": "^6.1.1",
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "@playwright/browser-chromium": "^1.63.0",
+    "commander": "^15.0.0",
+    "fastify": "^5.12.3",
+    "ipaddr.js": "^2.2.0",
+    "pino": "^10.3.1",
+    "playwright-core": "^1.63.0",
+    "zod": "^4.6.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.35.0",
+    "@types/node": "^24.3.1",
+    "eslint": "^9.35.0",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.6.2",
+    "tsx": "^4.20.5",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.42.0",
+    "vitest": "^5.0.0"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "documentkit": {
+      "command": "npx",
+      "args": ["-y", "documentkit", "mcp"]
+    }
+  }
+}

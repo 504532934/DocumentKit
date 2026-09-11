@@ -1,0 +1,21 @@
+name: Bug report
+description: Report a reproducible DocumentKit defect
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: DocumentKit version
+    validations:
+      required: true
