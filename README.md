@@ -25,6 +25,35 @@ Secure, high-throughput webpage-to-PDF and screenshot service for Node.js. Docum
 
 The npm package installs a compatible Chromium automatically, so no separate browser installation is normally required.
 
+### Install Node.js and Playwright
+
+1. Install Node.js 22 or newer from the [Node.js download page](https://nodejs.org/en/download) or with a Node.js version manager, then verify the installation:
+
+   ```bash
+   node --version
+   npm --version
+   ```
+
+2. Install the project dependencies from the repository root:
+
+   ```bash
+   npm install
+   ```
+
+   This installs `playwright-core` and downloads the compatible Chromium build through `@playwright/browser-chromium`. Do not install Playwright globally.
+
+3. On Linux, install Chromium's operating-system dependencies if they are not already available:
+
+   ```bash
+   sudo npx playwright-core install-deps chromium
+   ```
+
+If browser downloading was disabled during `npm install` (for example, with `PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1`), download Chromium afterward with:
+
+```bash
+npx playwright-core install chromium
+```
+
 ## Quick start
 
 ```bash

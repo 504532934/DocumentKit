@@ -25,6 +25,35 @@ DocumentKit 是一个安全、高吞吐的 Node.js 网页转 PDF 与网页截图
 
 npm 包会自动安装兼容版本的 Chromium，通常不需要单独安装浏览器。
 
+### 安装 Node.js 和 Playwright
+
+1. 从 [Node.js 下载页面](https://nodejs.org/zh-cn/download)或通过 Node.js 版本管理器安装 Node.js 22 或更高版本，然后确认安装成功：
+
+   ```bash
+   node --version
+   npm --version
+   ```
+
+2. 在项目根目录安装依赖：
+
+   ```bash
+   npm install
+   ```
+
+   此命令会安装 `playwright-core`，并通过 `@playwright/browser-chromium` 下载版本匹配的 Chromium，无需全局安装 Playwright。
+
+3. 在 Linux 上，如果系统尚未安装 Chromium 所需的系统依赖，请执行：
+
+   ```bash
+   sudo npx playwright-core install-deps chromium
+   ```
+
+如果执行 `npm install` 时禁用了浏览器下载（例如设置了 `PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1`），请随后手动下载 Chromium：
+
+```bash
+npx playwright-core install chromium
+```
+
 ## 快速开始
 
 ```bash
