@@ -9,7 +9,7 @@ import { startStdioMcp } from '../server/mcp/stdio.js';
 const program = new Command()
   .name('documentkit')
   .description('Secure webpage PDF and screenshot service')
-  .version('0.1.0');
+  .version('0.1.1');
 
 program
   .command('serve', { isDefault: true })

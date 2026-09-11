@@ -1,6 +1,6 @@
 {
   "name": "@crossdo/documentkit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Secure, high-throughput webpage to PDF and screenshot service with HTTP and MCP interfaces.",
   "type": "module",
   "bin": {
@@ -36,6 +36,7 @@
     "test:unit": "vitest run tests/unit",
     "test:integration": "vitest run tests/integration",
     "check": "npm run typecheck && npm run lint && npm run format:check && npm test && npm run build",
+    "postinstall": "playwright-core install chromium",
     "prepack": "npm run clean && npm run build"
   },
   "keywords": [

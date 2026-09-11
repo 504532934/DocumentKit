@@ -8,7 +8,7 @@ import {
 } from '../../schemas/render.js';
 
 export function createMcpServer(documentKit: DocumentKit): McpServer {
-  const server = new McpServer({ name: 'documentkit', version: '0.1.0' });
+  const server = new McpServer({ name: 'documentkit', version: '0.1.1' });
 
   server.registerTool(
     'render_webpage_pdf',
@@ -52,7 +52,7 @@ export function createMcpServer(documentKit: DocumentKit): McpServer {
             type: 'text' as const,
             text: JSON.stringify({
               name: 'DocumentKit',
-              version: '0.1.0',
+              version: '0.1.1',
               storage: 'memory-only',
               maxOutputBytes: documentKit.config.maxOutputBytes,
               maxMcpOutputBytes: documentKit.config.maxMcpOutputBytes,

@@ -37,7 +37,7 @@ export async function createHttpApp(documentKit: DocumentKit) {
       info: {
         title: 'DocumentKit API',
         description: 'In-memory webpage PDF and screenshot service.',
-        version: '0.1.0',
+        version: '0.1.1',
       },
     },
   });
