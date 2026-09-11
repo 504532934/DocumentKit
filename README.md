@@ -1,5 +1,7 @@
 # DocumentKit
 
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 Secure, high-throughput webpage-to-PDF and screenshot service for Node.js. DocumentKit exposes the same rendering core through a REST API, MCP Streamable HTTP, and MCP stdio.
 
 > Status: early development (`0.x`). APIs may change before `1.0`.
