@@ -67,7 +67,7 @@ The server listens on `127.0.0.1:3000` by default:
 - OpenAPI UI: `http://127.0.0.1:3000/docs`
 - Health: `http://127.0.0.1:3000/health/live`
 
-### Deploy with PM2 (without Docker)
+### Deploy with PM2
 
 Install DocumentKit locally and use PM2 to keep it running:
 

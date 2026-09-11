@@ -67,7 +67,7 @@ npx documentkit serve
 - OpenAPI UI：`http://127.0.0.1:3000/docs`
 - 健康检查：`http://127.0.0.1:3000/health/live`
 
-### 使用 PM2 部署（非 Docker）
+### 使用 PM2 部署
 
 在固定目录安装 DocumentKit，并使用 PM2 保持服务运行：
 
