@@ -56,7 +56,7 @@
   },
   "homepage": "https://github.com/504532934/DocumentKit#readme",
   "dependencies": {
-    "@fastify/rate-limit": "^10.3.0",
+    "@fastify/rate-limit": "^11.2.0",
     "@fastify/swagger": "^9.8.1",
     "@fastify/swagger-ui": "^6.1.1",
     "@modelcontextprotocol/sdk": "^1.30.0",
