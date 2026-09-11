@@ -23,7 +23,7 @@ DocumentKit 是一个安全、高吞吐的 Node.js 网页转 PDF 与网页截图
 - Node.js 22 或更高版本
 - Playwright 支持的 macOS 或 Linux 系统
 
-安装项目依赖时会自动下载兼容版本的 Chromium，通常不需要单独安装浏览器。
+npm 包会自动下载兼容版本的 Chromium，通常不需要单独安装浏览器。
 
 ### 安装 Node.js 和 Playwright
 
@@ -57,14 +57,8 @@ npx playwright-core install chromium
 ## 快速开始
 
 ```bash
-git clone https://github.com/504532934/DocumentKit.git
-cd DocumentKit
-npm ci
-npm run build
-npm start
+npx --yes @crossdo/documentkit serve
 ```
-
-> DocumentKit 尚未发布到 npm Registry。在正式发布前，无法使用 `npx documentkit serve`，请按照上述命令从 GitHub 源码安装并运行。
 
 服务默认监听 `127.0.0.1:3000`：
 
@@ -75,15 +69,15 @@ npm start
 
 ### 使用 PM2 部署
 
-克隆并构建 DocumentKit，然后使用 PM2 保持服务运行：
+在固定目录安装 DocumentKit，然后使用 PM2 保持服务运行：
 
 ```bash
-git clone https://github.com/504532934/DocumentKit.git ~/documentkit
+mkdir -p ~/documentkit
 cd ~/documentkit
-npm ci
-npm run build
+npm init -y
+npm install @crossdo/documentkit
 npm install --global pm2
-pm2 start dist/cli/index.js --name documentkit -- serve
+pm2 start ./node_modules/.bin/documentkit --name documentkit -- serve
 ```
 
 配置服务器重启后自动启动。先执行 `pm2 startup`，按照它输出的提示执行相应命令，然后保存当前进程列表：
@@ -106,9 +100,7 @@ pm2 stop documentkit
 
 ```bash
 cd ~/documentkit
-git pull --ff-only
-npm ci
-npm run build
+npm install @crossdo/documentkit@latest
 pm2 restart documentkit
 pm2 save
 ```
@@ -147,8 +139,8 @@ MCP stdio 配置示例：
 {
   "mcpServers": {
     "documentkit": {
-      "command": "node",
-      "args": ["/absolute/path/to/DocumentKit/dist/cli/index.js", "mcp"]
+      "command": "npx",
+      "args": ["--yes", "@crossdo/documentkit", "mcp"]
     }
   }
 }
@@ -196,7 +188,7 @@ DocumentKit 默认仅监听本机回环地址，并阻止访问私有、本地�
 
 ```bash
 DOCUMENTKIT_API_KEY='replace-with-at-least-16-random-characters' \
-  npm start -- --host 0.0.0.0
+  npx --yes @crossdo/documentkit serve --host 0.0.0.0
 ```
 
 应用层 URL 过滤不能替代操作系统或容器层面的出口防火墙。生产环境还应在网络层阻止访问私有网络目标。将服务暴露到网络前，请阅读 [SECURITY.md](SECURITY.md) 和[安全模型](docs/security.md)。

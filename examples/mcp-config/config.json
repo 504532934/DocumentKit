@@ -1,8 +1,8 @@
 {
   "mcpServers": {
     "documentkit": {
-      "command": "node",
-      "args": ["/absolute/path/to/DocumentKit/dist/cli/index.js", "mcp"]
+      "command": "npx",
+      "args": ["--yes", "@crossdo/documentkit", "mcp"]
     }
   }
 }

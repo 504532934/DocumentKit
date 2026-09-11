@@ -1,5 +1,5 @@
 {
-  "name": "documentkit",
+  "name": "@crossdo/documentkit",
   "version": "0.1.0",
   "description": "Secure, high-throughput webpage to PDF and screenshot service with HTTP and MCP interfaces.",
   "type": "module",
@@ -56,6 +56,10 @@
     "url": "https://github.com/504532934/DocumentKit/issues"
   },
   "homepage": "https://github.com/504532934/DocumentKit#readme",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "dependencies": {
     "@fastify/rate-limit": "^11.2.0",
     "@fastify/swagger": "^9.8.1",
