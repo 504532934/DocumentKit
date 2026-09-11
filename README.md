@@ -67,25 +67,45 @@ The server listens on `127.0.0.1:3000` by default:
 - OpenAPI UI: `http://127.0.0.1:3000/docs`
 - Health: `http://127.0.0.1:3000/health/live`
 
-### Long-running server installation without Docker
+### Deploy with PM2 (without Docker)
 
-For a persistent server deployment, install DocumentKit in a fixed directory instead of relying on npx's temporary package cache:
+Install DocumentKit locally and use PM2 to keep it running:
 
 ```bash
-sudo mkdir -p /opt/documentkit
-sudo chown "$(id -u):$(id -g)" /opt/documentkit
-cd /opt/documentkit
+mkdir -p ~/documentkit
+cd ~/documentkit
 npm init -y
 npm install documentkit
-npx documentkit serve
+npm install --global pm2
+pm2 start ./node_modules/.bin/documentkit --name documentkit -- serve
 ```
 
-This installs DocumentKit under `/opt/documentkit/node_modules/documentkit`. The default loopback address does not require an API key and is suitable for use behind an HTTPS reverse proxy such as Nginx or Caddy. Listening directly on an external interface requires an API key:
+Configure automatic startup after a server reboot. Run the command printed by `pm2 startup`, then save the current process list:
 
 ```bash
-DOCUMENTKIT_API_KEY='replace-with-at-least-16-random-characters' \
-  npx documentkit serve --host 0.0.0.0
+pm2 startup
+pm2 save
 ```
+
+Common operations:
+
+```bash
+pm2 status
+pm2 logs documentkit
+pm2 restart documentkit
+pm2 stop documentkit
+```
+
+Update DocumentKit and restart it:
+
+```bash
+cd ~/documentkit
+npm install documentkit@latest
+pm2 restart documentkit
+pm2 save
+```
+
+The default `127.0.0.1:3000` listener does not require an API key. For production, keep this default and expose it through an HTTPS reverse proxy such as Nginx or Caddy. See [Security](#security) before listening on an external interface.
 
 Render HTML to PDF:
 

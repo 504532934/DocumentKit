@@ -67,25 +67,45 @@ npx documentkit serve
 - OpenAPI UI：`http://127.0.0.1:3000/docs`
 - 健康检查：`http://127.0.0.1:3000/health/live`
 
-### 非 Docker 服务器长期部署
+### 使用 PM2 部署（非 Docker）
 
-长期运行时，建议将 DocumentKit 安装到固定目录，而不是依赖 npx 的临时软件包缓存：
+在固定目录安装 DocumentKit，并使用 PM2 保持服务运行：
 
 ```bash
-sudo mkdir -p /opt/documentkit
-sudo chown "$(id -u):$(id -g)" /opt/documentkit
-cd /opt/documentkit
+mkdir -p ~/documentkit
+cd ~/documentkit
 npm init -y
 npm install documentkit
-npx documentkit serve
+npm install --global pm2
+pm2 start ./node_modules/.bin/documentkit --name documentkit -- serve
 ```
 
-DocumentKit 将安装在 `/opt/documentkit/node_modules/documentkit`。默认监听本机回环地址，无需 API Key，适合通过 Nginx 或 Caddy 等 HTTPS 反向代理对外提供服务。如果直接监听外部网络接口，则必须配置 API Key：
+配置服务器重启后自动启动。先执行 `pm2 startup`，按照它输出的提示执行相应命令，然后保存当前进程列表：
 
 ```bash
-DOCUMENTKIT_API_KEY='replace-with-at-least-16-random-characters' \
-  npx documentkit serve --host 0.0.0.0
+pm2 startup
+pm2 save
 ```
+
+常用管理命令：
+
+```bash
+pm2 status
+pm2 logs documentkit
+pm2 restart documentkit
+pm2 stop documentkit
+```
+
+更新 DocumentKit 并重启服务：
+
+```bash
+cd ~/documentkit
+npm install documentkit@latest
+pm2 restart documentkit
+pm2 save
+```
+
+服务默认监听 `127.0.0.1:3000`，无需 API Key。生产环境建议保持默认监听地址，并通过 Nginx 或 Caddy 等 HTTPS 反向代理对外提供服务。监听外部网络接口前请阅读[安全性](#安全性)章节。
 
 将 HTML 渲染为 PDF：
 
