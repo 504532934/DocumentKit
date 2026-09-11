@@ -23,7 +23,7 @@ Secure, high-throughput webpage-to-PDF and screenshot service for Node.js. Docum
 - Node.js 22 or newer
 - macOS or Linux supported by Playwright
 
-The npm package installs a compatible Chromium automatically, so no separate browser installation is normally required.
+Installing the project dependencies downloads a compatible Chromium automatically, so no separate browser installation is normally required.
 
 ### Install Node.js and Playwright
 
@@ -57,8 +57,14 @@ npx playwright-core install chromium
 ## Quick start
 
 ```bash
-npx documentkit serve
+git clone https://github.com/504532934/DocumentKit.git
+cd DocumentKit
+npm ci
+npm run build
+npm start
 ```
+
+> DocumentKit is not yet published to the npm registry. Until it is published, `npx documentkit serve` is not available; install and run it from the GitHub source as shown above.
 
 The server listens on `127.0.0.1:3000` by default:
 
@@ -69,15 +75,15 @@ The server listens on `127.0.0.1:3000` by default:
 
 ### Deploy with PM2
 
-Install DocumentKit locally and use PM2 to keep it running:
+Clone and build DocumentKit, then use PM2 to keep it running:
 
 ```bash
-mkdir -p ~/documentkit
+git clone https://github.com/504532934/DocumentKit.git ~/documentkit
 cd ~/documentkit
-npm init -y
-npm install documentkit
+npm ci
+npm run build
 npm install --global pm2
-pm2 start ./node_modules/.bin/documentkit --name documentkit -- serve
+pm2 start dist/cli/index.js --name documentkit -- serve
 ```
 
 Configure automatic startup after a server reboot. Run the command printed by `pm2 startup`, then save the current process list:
@@ -100,7 +106,9 @@ Update DocumentKit and restart it:
 
 ```bash
 cd ~/documentkit
-npm install documentkit@latest
+git pull --ff-only
+npm ci
+npm run build
 pm2 restart documentkit
 pm2 save
 ```
@@ -139,8 +147,8 @@ For MCP stdio configuration:
 {
   "mcpServers": {
     "documentkit": {
-      "command": "npx",
-      "args": ["-y", "documentkit", "mcp"]
+      "command": "node",
+      "args": ["/absolute/path/to/DocumentKit/dist/cli/index.js", "mcp"]
     }
   }
 }
@@ -188,7 +196,7 @@ DocumentKit defaults to loopback-only listening and blocks private, local, reser
 
 ```bash
 DOCUMENTKIT_API_KEY='replace-with-at-least-16-random-characters' \
-  npx documentkit serve --host 0.0.0.0
+  npm start -- --host 0.0.0.0
 ```
 
 An application-level URL filter cannot replace an operating-system or container egress firewall. Production deployments should deny private network destinations at the network layer as well. Read [SECURITY.md](SECURITY.md) and [the security model](docs/security.md) before exposing the service.

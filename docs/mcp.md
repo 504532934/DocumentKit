@@ -9,7 +9,7 @@ DocumentKit exposes these tools:
 ## Local stdio
 
 ```bash
-npx documentkit mcp
+node /absolute/path/to/DocumentKit/dist/cli/index.js mcp
 ```
 
 Logs are written to stderr so stdout remains valid MCP JSON-RPC.

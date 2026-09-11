@@ -1,8 +1,8 @@
 {
   "mcpServers": {
     "documentkit": {
-      "command": "npx",
-      "args": ["-y", "documentkit", "mcp"]
+      "command": "node",
+      "args": ["/absolute/path/to/DocumentKit/dist/cli/index.js", "mcp"]
     }
   }
 }
