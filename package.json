@@ -4,7 +4,7 @@
   "description": "Secure, high-throughput webpage to PDF and screenshot service with HTTP and MCP interfaces.",
   "type": "module",
   "bin": {
-    "documentkit": "./dist/cli/index.js"
+    "documentkit": "dist/cli/index.js"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
