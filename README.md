@@ -67,6 +67,26 @@ The server listens on `127.0.0.1:3000` by default:
 - OpenAPI UI: `http://127.0.0.1:3000/docs`
 - Health: `http://127.0.0.1:3000/health/live`
 
+### Long-running server installation without Docker
+
+For a persistent server deployment, install DocumentKit in a fixed directory instead of relying on npx's temporary package cache:
+
+```bash
+sudo mkdir -p /opt/documentkit
+sudo chown "$(id -u):$(id -g)" /opt/documentkit
+cd /opt/documentkit
+npm init -y
+npm install documentkit
+npx documentkit serve
+```
+
+This installs DocumentKit under `/opt/documentkit/node_modules/documentkit`. The default loopback address does not require an API key and is suitable for use behind an HTTPS reverse proxy such as Nginx or Caddy. Listening directly on an external interface requires an API key:
+
+```bash
+DOCUMENTKIT_API_KEY='replace-with-at-least-16-random-characters' \
+  npx documentkit serve --host 0.0.0.0
+```
+
 Render HTML to PDF:
 
 ```bash

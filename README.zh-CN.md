@@ -67,6 +67,26 @@ npx documentkit serve
 - OpenAPI UI：`http://127.0.0.1:3000/docs`
 - 健康检查：`http://127.0.0.1:3000/health/live`
 
+### 非 Docker 服务器长期部署
+
+长期运行时，建议将 DocumentKit 安装到固定目录，而不是依赖 npx 的临时软件包缓存：
+
+```bash
+sudo mkdir -p /opt/documentkit
+sudo chown "$(id -u):$(id -g)" /opt/documentkit
+cd /opt/documentkit
+npm init -y
+npm install documentkit
+npx documentkit serve
+```
+
+DocumentKit 将安装在 `/opt/documentkit/node_modules/documentkit`。默认监听本机回环地址，无需 API Key，适合通过 Nginx 或 Caddy 等 HTTPS 反向代理对外提供服务。如果直接监听外部网络接口，则必须配置 API Key：
+
+```bash
+DOCUMENTKIT_API_KEY='replace-with-at-least-16-random-characters' \
+  npx documentkit serve --host 0.0.0.0
+```
+
 将 HTML 渲染为 PDF：
 
 ```bash
