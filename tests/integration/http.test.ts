@@ -60,4 +60,28 @@ describe('HTTP API', () => {
     const body = response.json<{ error: { code: string } }>();
     expect(body.error.code).toBe('BAD_REQUEST');
   });
+
+  it('enforces bearer authentication when an API key is configured', async () => {
+    const protectedDocumentKit = testDocumentKit({ apiKey: '0123456789abcdef' });
+    const protectedApp = await createHttpApp(protectedDocumentKit);
+    try {
+      const unauthorized = await protectedApp.inject({
+        method: 'POST',
+        url: '/v1/pdf',
+        payload: {},
+      });
+      expect(unauthorized.statusCode).toBe(401);
+
+      const authorized = await protectedApp.inject({
+        method: 'POST',
+        url: '/v1/pdf',
+        headers: { authorization: 'Bearer 0123456789abcdef' },
+        payload: {},
+      });
+      expect(authorized.statusCode).toBe(400);
+    } finally {
+      await protectedApp.close();
+      await protectedDocumentKit.close();
+    }
+  });
 });

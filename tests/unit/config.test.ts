@@ -2,15 +2,17 @@ import { describe, expect, it } from 'vitest';
 import { loadConfig } from '../../src/config/index.js';
 
 describe('loadConfig', () => {
-  it('uses safe local defaults', () => {
+  it('uses network-accessible defaults with private destinations blocked', () => {
     const config = loadConfig({});
-    expect(config.host).toBe('127.0.0.1');
+    expect(config.host).toBe('0.0.0.0');
     expect(config.allowPrivateNetworks).toBe(false);
     expect(config.maxConcurrency).toBe(4);
   });
 
-  it('requires authentication on public bindings', () => {
-    expect(() => loadConfig({ DOCUMENTKIT_HOST: '0.0.0.0' })).toThrow(/API_KEY/);
+  it('allows a public binding without authentication', () => {
+    const config = loadConfig({ DOCUMENTKIT_HOST: '0.0.0.0', DOCUMENTKIT_API_KEY: '' });
+    expect(config.host).toBe('0.0.0.0');
+    expect(config.apiKey).toBeUndefined();
   });
 
   it('accepts a public binding with a sufficiently long key', () => {

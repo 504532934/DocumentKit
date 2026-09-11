@@ -1,6 +1,6 @@
 {
   "name": "@crossdo/documentkit",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Secure, high-throughput webpage to PDF and screenshot service with HTTP and MCP interfaces.",
   "type": "module",
   "bin": {

@@ -6,9 +6,12 @@ const booleanFromEnv = z
   .transform((value) => value === 'true');
 
 const environmentSchema = z.object({
-  DOCUMENTKIT_HOST: z.string().default('127.0.0.1'),
+  DOCUMENTKIT_HOST: z.string().default('0.0.0.0'),
   DOCUMENTKIT_PORT: z.coerce.number().int().min(1).max(65_535).default(3000),
-  DOCUMENTKIT_API_KEY: z.string().min(16).optional(),
+  DOCUMENTKIT_API_KEY: z.preprocess(
+    (value) => (value === '' ? undefined : value),
+    z.string().min(16).optional(),
+  ),
   DOCUMENTKIT_MAX_CONCURRENCY: z.coerce.number().int().min(1).max(64).default(4),
   DOCUMENTKIT_MAX_QUEUE: z.coerce.number().int().min(0).max(10_000).default(32),
   DOCUMENTKIT_RATE_LIMIT_MAX: z.coerce.number().int().min(1).max(100_000).default(60),
@@ -85,13 +88,5 @@ export function loadConfig(environment: NodeJS.ProcessEnv = process.env): AppCon
   };
 
   if (value.DOCUMENTKIT_API_KEY) config.apiKey = value.DOCUMENTKIT_API_KEY;
-  validatePublicBinding(config);
   return config;
-}
-
-function validatePublicBinding(config: AppConfig): void {
-  const localHosts = new Set(['127.0.0.1', '::1', 'localhost']);
-  if (!localHosts.has(config.host.toLowerCase()) && !config.apiKey) {
-    throw new Error('DOCUMENTKIT_API_KEY is required when listening on a non-loopback host.');
-  }
 }

@@ -9,7 +9,7 @@ import { startStdioMcp } from '../server/mcp/stdio.js';
 const program = new Command()
   .name('documentkit')
   .description('Secure webpage PDF and screenshot service')
-  .version('0.1.1');
+  .version('0.1.2');
 
 program
   .command('serve', { isDefault: true })
@@ -26,6 +26,12 @@ program
     };
     const config = loadConfig(environment);
     const logger = pino({ level: config.logLevel });
+    if (!config.apiKey && !isLoopbackHost(config.host)) {
+      logger.warn(
+        { host: config.host, port: config.port },
+        'DocumentKit is listening without authentication; restrict access with a firewall or security group.',
+      );
+    }
     const documentKit = new DocumentKit({ config, logger });
     const app = await createHttpApp(documentKit);
 
@@ -76,3 +82,7 @@ program
   });
 
 await program.parseAsync(process.argv);
+
+function isLoopbackHost(host: string): boolean {
+  return new Set(['127.0.0.1', '::1', 'localhost']).has(host.toLowerCase());
+}

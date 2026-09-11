@@ -60,7 +60,7 @@ npx playwright-core install chromium
 npx --yes @crossdo/documentkit serve
 ```
 
-The server listens on `127.0.0.1:3000` by default:
+The server listens on all interfaces (`0.0.0.0:3000`) by default. From the same machine, use:
 
 - REST: `http://127.0.0.1:3000/v1`
 - MCP: `http://127.0.0.1:3000/mcp`
@@ -105,7 +105,7 @@ pm2 restart documentkit
 pm2 save
 ```
 
-The default `127.0.0.1:3000` listener does not require an API key. For production, keep this default and expose it through an HTTPS reverse proxy such as Nginx or Caddy. See [Security](#security) before listening on an external interface.
+The service is network-accessible without authentication by default. Restrict port `3000` to trusted source addresses with a firewall or cloud security group. Configure `DOCUMENTKIT_API_KEY` when authentication is required.
 
 Render HTML to PDF:
 
@@ -128,7 +128,7 @@ curl -sS http://127.0.0.1:3000/v1/screenshots \
 ## CLI
 
 ```text
-documentkit serve [--host 127.0.0.1] [--port 3000] [--api-key TOKEN]
+documentkit serve [--host 0.0.0.0] [--port 3000] [--api-key TOKEN]
 documentkit mcp
 documentkit doctor
 ```
@@ -184,14 +184,14 @@ See [API documentation](docs/api.md), [MCP documentation](docs/mcp.md), and [con
 
 ## Security
 
-DocumentKit defaults to loopback-only listening and blocks private, local, reserved, and link-local network targets. Binding to a non-loopback address requires an API key:
+DocumentKit listens on all interfaces without authentication by default. This is convenient for trusted private networks, but port `3000` must be restricted with a firewall or cloud security group. Set an API key to require bearer authentication:
 
 ```bash
 DOCUMENTKIT_API_KEY='replace-with-at-least-16-random-characters' \
-  npx --yes @crossdo/documentkit serve --host 0.0.0.0
+  npx --yes @crossdo/documentkit serve
 ```
 
-An application-level URL filter cannot replace an operating-system or container egress firewall. Production deployments should deny private network destinations at the network layer as well. Read [SECURITY.md](SECURITY.md) and [the security model](docs/security.md) before exposing the service.
+Private, local, reserved, and link-local rendering targets remain blocked. An application-level URL filter cannot replace an operating-system or container egress firewall. Production deployments should deny private network destinations at the network layer as well. Read [SECURITY.md](SECURITY.md) and [the security model](docs/security.md) before exposing the service.
 
 ## Performance model
 

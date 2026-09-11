@@ -4,6 +4,13 @@ All notable changes will be documented here. The format follows Keep a Changelog
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-09-11
+
+### Changed
+
+- Listen on all network interfaces by default and make bearer authentication optional
+- Log a warning when serving remote connections without authentication
+
 ## [0.1.1] - 2026-09-11
 
 ### Fixed

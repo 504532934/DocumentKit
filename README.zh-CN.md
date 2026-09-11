@@ -60,7 +60,7 @@ npx playwright-core install chromium
 npx --yes @crossdo/documentkit serve
 ```
 
-服务默认监听 `127.0.0.1:3000`：
+服务默认监听所有网络接口（`0.0.0.0:3000`）。在本机可使用以下地址：
 
 - REST：`http://127.0.0.1:3000/v1`
 - MCP：`http://127.0.0.1:3000/mcp`
@@ -105,7 +105,7 @@ pm2 restart documentkit
 pm2 save
 ```
 
-服务默认监听 `127.0.0.1:3000`，无需 API Key。生产环境建议保持默认监听地址，并通过 Nginx 或 Caddy 等 HTTPS 反向代理对外提供服务。监听外部网络接口前请阅读[安全性](#安全性)章节。
+服务默认允许网络访问且不启用身份认证。请使用防火墙或云安全组将 `3000` 端口限制为可信来源地址；需要身份认证时请配置 `DOCUMENTKIT_API_KEY`。
 
 将 HTML 渲染为 PDF：
 
@@ -128,7 +128,7 @@ curl -sS http://127.0.0.1:3000/v1/screenshots \
 ## CLI
 
 ```text
-documentkit serve [--host 127.0.0.1] [--port 3000] [--api-key TOKEN]
+documentkit serve [--host 0.0.0.0] [--port 3000] [--api-key TOKEN]
 documentkit mcp
 documentkit doctor
 ```
@@ -184,14 +184,14 @@ MCP stdio 配置示例：
 
 ## 安全性
 
-DocumentKit 默认仅监听本机回环地址，并阻止访问私有、本地、保留及链路本地网络地址。监听非回环地址时必须配置 API Key：
+DocumentKit 默认监听所有网络接口且不启用身份认证，方便在可信内网中直接使用，但必须通过防火墙或云安全组限制 `3000` 端口的访问来源。需要 Bearer 身份认证时可设置 API Key：
 
 ```bash
 DOCUMENTKIT_API_KEY='replace-with-at-least-16-random-characters' \
-  npx --yes @crossdo/documentkit serve --host 0.0.0.0
+  npx --yes @crossdo/documentkit serve
 ```
 
-应用层 URL 过滤不能替代操作系统或容器层面的出口防火墙。生产环境还应在网络层阻止访问私有网络目标。将服务暴露到网络前，请阅读 [SECURITY.md](SECURITY.md) 和[安全模型](docs/security.md)。
+对私有、本地、保留及链路本地渲染目标的拦截仍然生效。应用层 URL 过滤不能替代操作系统或容器层面的出口防火墙。生产环境还应在网络层阻止访问私有网络目标。将服务暴露到网络前，请阅读 [SECURITY.md](SECURITY.md) 和[安全模型](docs/security.md)。
 
 ## 性能模型
 
