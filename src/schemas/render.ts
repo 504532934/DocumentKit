@@ -16,7 +16,7 @@ const sourceRefinement = (value: {
 const pageSchema = z
   .object({
     waitUntil: z.enum(['load', 'domcontentloaded', 'networkidle', 'commit']).default('load'),
-    timeoutMs: z.number().int().min(1_000).max(120_000).optional(),
+    timeoutMs: z.number().int().min(1_000).max(180_000).optional(),
     delayMs: z.number().int().min(0).max(5_000).default(0),
     viewport: z
       .object({

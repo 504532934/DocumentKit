@@ -27,7 +27,7 @@ export async function createHttpApp(documentKit: DocumentKit) {
     loggerInstance: documentKit.logger,
     bodyLimit: 2_200_000,
     requestTimeout: documentKit.config.jobTimeoutMs + 5_000,
-    connectionTimeout: 10_000,
+    connectionTimeout: documentKit.config.jobTimeoutMs + 5_000,
     keepAliveTimeout: 10_000,
     maxRequestsPerSocket: 100,
   });

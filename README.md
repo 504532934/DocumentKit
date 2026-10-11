@@ -199,10 +199,10 @@ DocumentKit starts one Chromium process and reuses it. Each render receives a fr
 
 - concurrency: 4 jobs
 - waiting queue: 32 jobs
-- job timeout: 45 seconds
-- output limit: 25 MiB
+- job timeout: 180 seconds
+- output limit: 100 MiB
 - MCP inline limit: 5 MiB
-- declared network budget: 50 MiB per page
+- declared network budget: 200 MiB per page
 
 Chromium disk and media caches are minimized. Application output remains in memory and is released after the response. Tune concurrency based on available RAM; Chromium-heavy jobs commonly need substantially more memory than their final PDF size.
 

@@ -7,6 +7,10 @@ describe('loadConfig', () => {
     expect(config.host).toBe('0.0.0.0');
     expect(config.allowPrivateNetworks).toBe(false);
     expect(config.maxConcurrency).toBe(4);
+    expect(config.jobTimeoutMs).toBe(180_000);
+    expect(config.navigationTimeoutMs).toBe(180_000);
+    expect(config.maxOutputBytes).toBe(100 * 1024 * 1024);
+    expect(config.maxDeclaredNetworkBytes).toBe(200 * 1024 * 1024);
   });
 
   it('allows a public binding without authentication', () => {

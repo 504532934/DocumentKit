@@ -15,19 +15,19 @@ const environmentSchema = z.object({
   DOCUMENTKIT_MAX_CONCURRENCY: z.coerce.number().int().min(1).max(64).default(4),
   DOCUMENTKIT_MAX_QUEUE: z.coerce.number().int().min(0).max(10_000).default(32),
   DOCUMENTKIT_RATE_LIMIT_MAX: z.coerce.number().int().min(1).max(100_000).default(60),
-  DOCUMENTKIT_JOB_TIMEOUT_MS: z.coerce.number().int().min(1_000).max(300_000).default(45_000),
+  DOCUMENTKIT_JOB_TIMEOUT_MS: z.coerce.number().int().min(1_000).max(300_000).default(180_000),
   DOCUMENTKIT_NAVIGATION_TIMEOUT_MS: z.coerce
     .number()
     .int()
     .min(1_000)
-    .max(120_000)
-    .default(30_000),
+    .max(180_000)
+    .default(180_000),
   DOCUMENTKIT_MAX_OUTPUT_BYTES: z.coerce
     .number()
     .int()
     .min(1_024)
     .max(250 * 1024 * 1024)
-    .default(25 * 1024 * 1024),
+    .default(100 * 1024 * 1024),
   DOCUMENTKIT_MAX_MCP_OUTPUT_BYTES: z.coerce
     .number()
     .int()
@@ -40,7 +40,7 @@ const environmentSchema = z.object({
     .int()
     .min(1_024)
     .max(1024 * 1024 * 1024)
-    .default(50 * 1024 * 1024),
+    .default(200 * 1024 * 1024),
   DOCUMENTKIT_ALLOW_PRIVATE_NETWORKS: booleanFromEnv,
   DOCUMENTKIT_ALLOWED_HOSTS: z.string().default(''),
   DOCUMENTKIT_LOG_LEVEL: z
